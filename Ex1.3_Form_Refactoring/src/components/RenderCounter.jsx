@@ -1,28 +1,145 @@
 
-import { Profiler, useCallback, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function RenderCounter({ id, children }) {
-  const commitCount = useRef(0);
+/* ==========================================
+   M17 - ASYNC VALIDATION SIMULATION
+========================================== */
 
-  const handleRender = useCallback(
-    (profilerId, phase, actualDuration) => {
-      commitCount.current += 1;
+// Simulate an asynchronous validation request.
+// The older value "a" deliberately takes longer.
+function validateAsync(value) {
+  const delay = value === "a" ? 900 : 150;
 
-      console.log(
-        `[Profiler] ${profilerId}`,
-        {
-          phase,
-          commits: commitCount.current,
-          duration: `${actualDuration.toFixed(2)} ms`,
-        }
-      );
-    },
-    []
-  );
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        value,
+        valid: value.length >= 3,
+      });
+    }, delay);
+  });
+}
+
+export default function RaceConditionDemo() {
+  const [inputValue, setInputValue] = useState("");
+  const [unsafeResult, setUnsafeResult] = useState("Not tested");
+  const [safeResult, setSafeResult] = useState("Not tested");
+  const [logs, setLogs] = useState([]);
+
+  const runIdRef = useRef(0);
+  const timerRef = useRef(null);
+
+  /* ==========================================
+     ASYNC EFFECT - COMPARE UNSAFE VS SAFE
+  ========================================== */
+
+  useEffect(() => {
+    if (!inputValue) return;
+
+    const runId = runIdRef.current;
+    let ignore = false;
+
+    validateAsync(inputValue).then((result) => {
+      if (runId !== runIdRef.current) return;
+
+      const message =
+        `${result.value}: ${result.valid ? "Valid" : "Invalid"}`;
+
+      // Unsafe: old results can overwrite newer ones.
+      setUnsafeResult(message);
+
+      // Safe: ignore results from outdated effects.
+      if (!ignore) {
+        setSafeResult(message);
+      }
+
+      setLogs((previous) => [
+        ...previous.slice(-7),
+        `${message} | ${ignore ? "STALE" : "CURRENT"}`,
+      ]);
+
+      console.log("[M17] Async validation:", {
+        message,
+        stale: ignore,
+      });
+    });
+
+    return () => {
+      ignore = true;
+    };
+  }, [inputValue]);
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
+  /* ==========================================
+     RAPID INPUT SIMULATION
+  ========================================== */
+
+  function runSimulation() {
+    runIdRef.current += 1;
+    clearTimeout(timerRef.current);
+
+    setLogs([]);
+    setUnsafeResult("Waiting...");
+    setSafeResult("Waiting...");
+
+    // First input: slow validation
+    setInputValue("a");
+
+    // Second input: fast validation
+    timerRef.current = setTimeout(() => {
+      setInputValue("abc");
+    }, 80);
+  }
 
   return (
-    <Profiler id={id} onRender={handleRender}>
-      {children}
-    </Profiler>
+    <section className="race-demo">
+      <h2>M17 - Race Condition Simulation</h2>
+
+      <p>
+        Simulate rapid input changes with asynchronous
+        validation responses arriving out of order.
+      </p>
+
+      <button
+        className="submit-btn"
+        type="button"
+        onClick={runSimulation}
+      >
+        Run Race Condition Test
+      </button>
+
+      <p className="race-current">
+        Latest Input: <strong>{inputValue || "-"}</strong>
+      </p>
+
+      <div className="race-results">
+        <div className="race-result">
+          <h3>Unsafe Validation</h3>
+          <p>{unsafeResult}</p>
+        </div>
+
+        <div className="race-result">
+          <h3>Safe Validation</h3>
+          <p>{safeResult}</p>
+        </div>
+      </div>
+
+      <div className="race-log">
+        <h3>Execution Log</h3>
+
+        {logs.length === 0 ? (
+          <p>No results yet.</p>
+        ) : (
+          <ol>
+            {logs.map((log, index) => (
+              <li key={index}>{log}</li>
+            ))}
+          </ol>
+        )}
+      </div>
+    </section>
   );
 }
