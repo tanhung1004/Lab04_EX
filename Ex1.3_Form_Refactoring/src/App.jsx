@@ -1,5 +1,6 @@
 
 import SimpleForm from "./legacy/SimpleForm";
+import RenderCounter from "./components/RenderCounter";
 
 export default function App() {
   return (
@@ -16,7 +17,9 @@ export default function App() {
           cascading re-renders in React forms.
         </p>
 
-        <SimpleForm />
+        <RenderCounter id="LegacySimpleForm">
+          <SimpleForm />
+        </RenderCounter>
       </div>
     </main>
   );

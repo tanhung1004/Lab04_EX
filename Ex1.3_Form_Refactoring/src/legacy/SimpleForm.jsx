@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import InputField from "./InputField";
 import { validateForm } from "../validation/formValidation";
+import RenderCounter from "../components/RenderCounter";
 
 export default function SimpleForm() {
   // Parent form state
@@ -14,8 +15,7 @@ export default function SimpleForm() {
   const [errors, setErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
-  const [submitAttempted, setSubmitAttempted] =
-    useState(false);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   /* ==========================================
@@ -64,7 +64,6 @@ export default function SimpleForm() {
     );
 
     const hasErrors = Object.keys(errors).length > 0;
-
     const valid = hasValues && !hasErrors;
 
     console.log(
@@ -84,8 +83,8 @@ export default function SimpleForm() {
 
     setSubmitAttempted(true);
 
-    // Validate synchronously before submission
-    // so stale derived state cannot approve invalid data.
+    // Synchronous validation prevents invalid submission
+    // while legacy derived state is still updating.
     const currentErrors = validateForm(formData);
 
     if (Object.keys(currentErrors).length > 0) {
@@ -110,32 +109,44 @@ export default function SimpleForm() {
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
-        <InputField
-          name="username"
-          label="Username"
-          placeholder="Enter your username"
-          onValueChange={handleValueChange}
-          error={errors.username || ""}
-          submitAttempted={submitAttempted}
-          scrollToError={
-            submitAttempted &&
-            firstErrorField === "username"
-          }
-        />
+        {/* ==========================================
+            Username - Profiler
+        ========================================== */}
 
-        <InputField
-          name="email"
-          label="Email"
-          type="email"
-          placeholder="Enter your email"
-          onValueChange={handleValueChange}
-          error={errors.email || ""}
-          submitAttempted={submitAttempted}
-          scrollToError={
-            submitAttempted &&
-            firstErrorField === "email"
-          }
-        />
+        <RenderCounter id="InputField-username">
+          <InputField
+            name="username"
+            label="Username"
+            placeholder="Enter your username"
+            onValueChange={handleValueChange}
+            error={errors.username || ""}
+            submitAttempted={submitAttempted}
+            scrollToError={
+              submitAttempted &&
+              firstErrorField === "username"
+            }
+          />
+        </RenderCounter>
+
+        {/* ==========================================
+            Email - Profiler
+        ========================================== */}
+
+        <RenderCounter id="InputField-email">
+          <InputField
+            name="email"
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+            onValueChange={handleValueChange}
+            error={errors.email || ""}
+            submitAttempted={submitAttempted}
+            scrollToError={
+              submitAttempted &&
+              firstErrorField === "email"
+            }
+          />
+        </RenderCounter>
 
         <button
           className="submit-btn"
@@ -145,6 +156,10 @@ export default function SimpleForm() {
         </button>
       </form>
 
+      {/* ==========================================
+          Current Parent State
+      ========================================== */}
+
       <div className="form-state">
         <h3>Current Parent State</h3>
 
@@ -152,6 +167,10 @@ export default function SimpleForm() {
           {JSON.stringify(formData, null, 2)}
         </pre>
       </div>
+
+      {/* ==========================================
+          Validation State
+      ========================================== */}
 
       <div className="validation-state">
         <h3>Validation State</h3>
