@@ -1,24 +1,20 @@
 
 import { useParams } from "react-router";
 import { people } from "../data/people";
+import NotFoundPage from "./NotFoundPage";
 
 export default function PersonDetailPage() {
-  // Extract dynamic ID from URL
+  // Get ID from the dynamic route
   const { id } = useParams();
 
-  // Find the selected person
+  // Find the matching person
   const person = people.find(
     (item) => item.id === id
   );
 
-  // Temporary fallback - improved in M11
+  // Handle invalid person ID
   if (!person) {
-    return (
-      <section className="detail-panel">
-        <h2>Person Not Found</h2>
-        <p>No person exists with ID: {id}</p>
-      </section>
-    );
+    return <NotFoundPage personId={id} />;
   }
 
   return (
@@ -38,23 +34,42 @@ export default function PersonDetailPage() {
         {person.role}
       </p>
 
-      <div className="detail-fields">
-        <p>
-          <strong>ID:</strong> {person.id}
-        </p>
+      {/* Semantic HTML Definition List */}
+      <dl className="detail-definition-list">
+        <div>
+          <dt>Person ID</dt>
+          <dd>{person.id}</dd>
+        </div>
 
-        <p>
-          <strong>Department:</strong> {person.department}
-        </p>
+        <div>
+          <dt>Full Name</dt>
+          <dd>{person.name}</dd>
+        </div>
 
-        <p>
-          <strong>Email:</strong> {person.email}
-        </p>
+        <div>
+          <dt>Role</dt>
+          <dd>{person.role}</dd>
+        </div>
 
-        <p>
-          <strong>Location:</strong> {person.location}
-        </p>
-      </div>
+        <div>
+          <dt>Department</dt>
+          <dd>{person.department}</dd>
+        </div>
+
+        <div>
+          <dt>Email</dt>
+          <dd>
+            <a href={`mailto:${person.email}`}>
+              {person.email}
+            </a>
+          </dd>
+        </div>
+
+        <div>
+          <dt>Location</dt>
+          <dd>{person.location}</dd>
+        </div>
+      </dl>
     </section>
   );
 }

@@ -322,3 +322,89 @@ p {
   }
 }
 
+
+/* ==========================================
+   M11 - SEMANTIC DETAIL & 404 FALLBACK
+========================================== */
+
+.detail-definition-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 28px 0 0;
+}
+
+.detail-definition-list > div {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #28465e;
+  border-radius: 10px;
+  background: #172940;
+}
+
+.detail-definition-list dt {
+  margin-bottom: 8px;
+  color: #8ca4c4;
+  font-size: 0.82rem;
+}
+
+.detail-definition-list dd {
+  margin: 0;
+  color: #e5edf8;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.detail-definition-list dd a {
+  color: #32d5dc;
+}
+
+/* 404 fallback */
+
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.error-code {
+  color: #fb7185;
+  font-size: 3.5rem;
+  font-weight: 800;
+}
+
+.not-found-page h2 {
+  margin: 12px 0;
+}
+
+.not-found-page p {
+  line-height: 1.6;
+}
+
+.back-button {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #32d5dc;
+  color: #071521;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background: #68e5e9;
+}
+
+.back-button:focus-visible {
+  outline: 3px solid #ffe28c;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .detail-definition-list {
+    grid-template-columns: 1fr;
+  }
+}
+

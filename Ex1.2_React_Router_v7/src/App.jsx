@@ -10,6 +10,7 @@ import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import PeopleListPage from "./pages/PeopleListPage";
 import PersonDetailPage from "./pages/PersonDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   return (
@@ -23,7 +24,6 @@ export default function App() {
             element={<AboutPage />}
           />
 
-          {/* Master-Detail nested routes */}
           <Route
             path="people"
             element={<PeopleListPage />}
@@ -46,6 +46,12 @@ export default function App() {
               element={<PersonDetailPage />}
             />
           </Route>
+
+          {/* Global 404 fallback */}
+          <Route
+            path="*"
+            element={<NotFoundPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
