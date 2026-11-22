@@ -1,6 +1,7 @@
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import InputField from "./InputField";
+import { validateForm } from "../validation/formValidation";
 
 export default function SimpleForm() {
   // Parent form state
@@ -9,29 +10,103 @@ export default function SimpleForm() {
     email: "",
   });
 
+  // Legacy derived states
+  const [errors, setErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const [submitAttempted, setSubmitAttempted] =
+    useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  function handleValueChange(name, value) {
-    setFormData((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
+  /* ==========================================
+     Callback used by InputField Effect #1
+  ========================================== */
+
+  const handleValueChange = useCallback((name, value) => {
+    setFormData((previous) => {
+      if (previous[name] === value) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+        [name]: value,
+      };
+    });
 
     setSubmitted(false);
-  }
+  }, []);
+
+  /* ==========================================
+     useEffect #2 - validateField()
+     Parent form data -> Validation errors
+  ========================================== */
+
+  useEffect(() => {
+    console.log(
+      "[Effect #2] validateField()",
+      formData
+    );
+
+    const nextErrors = validateForm(formData);
+
+    setErrors(nextErrors);
+  }, [formData]);
+
+  /* ==========================================
+     useEffect #3 - calcFormValidity()
+     Form data + Errors -> Validity state
+  ========================================== */
+
+  useEffect(() => {
+    const hasValues = Object.values(formData).every(
+      (value) => value.trim().length > 0
+    );
+
+    const hasErrors = Object.keys(errors).length > 0;
+
+    const valid = hasValues && !hasErrors;
+
+    console.log(
+      "[Effect #3] calcFormValidity()",
+      valid
+    );
+
+    setIsFormValid(valid);
+  }, [formData, errors]);
+
+  /* ==========================================
+     Submit handling
+  ========================================== */
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    setSubmitAttempted(true);
+
+    // Validate synchronously before submission
+    // so stale derived state cannot approve invalid data.
+    const currentErrors = validateForm(formData);
+
+    if (Object.keys(currentErrors).length > 0) {
+      setSubmitted(false);
+      return;
+    }
+
     setSubmitted(true);
   }
+
+  const firstErrorField = ["username", "email"].find(
+    (field) => errors[field]
+  );
 
   return (
     <section className="form-card">
       <h2>Legacy SimpleForm</h2>
 
       <p className="form-description">
-        Demonstrating state synchronization between
-        InputField and SimpleForm.
+        Demonstrating chained useEffect hooks
+        and redundant state synchronization.
       </p>
 
       <form onSubmit={handleSubmit} noValidate>
@@ -40,6 +115,12 @@ export default function SimpleForm() {
           label="Username"
           placeholder="Enter your username"
           onValueChange={handleValueChange}
+          error={errors.username || ""}
+          submitAttempted={submitAttempted}
+          scrollToError={
+            submitAttempted &&
+            firstErrorField === "username"
+          }
         />
 
         <InputField
@@ -48,9 +129,18 @@ export default function SimpleForm() {
           type="email"
           placeholder="Enter your email"
           onValueChange={handleValueChange}
+          error={errors.email || ""}
+          submitAttempted={submitAttempted}
+          scrollToError={
+            submitAttempted &&
+            firstErrorField === "email"
+          }
         />
 
-        <button className="submit-btn" type="submit">
+        <button
+          className="submit-btn"
+          type="submit"
+        >
           Submit Form
         </button>
       </form>
@@ -58,7 +148,30 @@ export default function SimpleForm() {
       <div className="form-state">
         <h3>Current Parent State</h3>
 
-        <pre>{JSON.stringify(formData, null, 2)}</pre>
+        <pre>
+          {JSON.stringify(formData, null, 2)}
+        </pre>
+      </div>
+
+      <div className="validation-state">
+        <h3>Validation State</h3>
+
+        <p>
+          Form Validity:
+          <strong
+            className={
+              isFormValid
+                ? "valid-text"
+                : "invalid-text"
+            }
+          >
+            {isFormValid ? " Valid" : " Invalid"}
+          </strong>
+        </p>
+
+        <pre>
+          {JSON.stringify(errors, null, 2)}
+        </pre>
       </div>
 
       {submitted && (

@@ -159,3 +159,49 @@ h1 {
     padding: 18px;
   }
 }
+
+/* ========================================
+   M15 - LEGACY VALIDATION STYLES
+======================================== */
+
+.field-error {
+  margin-top: 8px;
+  color: #fb7185;
+  font-size: 0.86rem;
+}
+
+.form-field input[aria-invalid="true"] {
+  border-color: #fb7185;
+}
+
+.validation-state {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #28465e;
+  border-radius: 10px;
+  background: #0b1220;
+}
+
+.validation-state h3 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+}
+
+.validation-state p {
+  color: #b3c5df;
+}
+
+.validation-state pre {
+  margin: 0;
+  color: #d2def0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.valid-text {
+  color: #75e4cc;
+}
+
+.invalid-text {
+  color: #fb7185;
+}
