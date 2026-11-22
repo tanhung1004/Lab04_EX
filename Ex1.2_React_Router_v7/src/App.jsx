@@ -1,20 +1,41 @@
 
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+} from "react-router";
+
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+
 export default function App() {
   return (
-    <main className="app">
-      <div className="container">
-        <span className="label">LAB 04 / EXERCISE 1.2</span>
+    <BrowserRouter>
+      <main className="app">
+        <div className="container">
+          <span className="label">
+            LAB 04 / EXERCISE 1.2.1
+          </span>
 
-        <h1>React Router v7</h1>
+          <nav className="route-nav" aria-label="Main navigation">
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+          </nav>
 
-        <p>
-          React + JavaScript JSX + Vite
-        </p>
+          <Routes>
+            <Route
+              path="/"
+              element={<HomePage />}
+            />
 
-        <div className="status">
-          Project setup successfully!
+            <Route
+              path="/about"
+              element={<AboutPage />}
+            />
+          </Routes>
         </div>
-      </div>
-    </main>
+      </main>
+    </BrowserRouter>
   );
 }

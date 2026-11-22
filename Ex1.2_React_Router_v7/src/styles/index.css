@@ -51,3 +51,35 @@ p {
   background: #173e40;
   color: #75e4cc;
 }
+
+/* ========================================
+   EXERCISE 1.2.1 - ROUTE NAVIGATION
+======================================== */
+
+.route-nav {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  margin-bottom: 32px;
+}
+
+.route-nav a {
+  padding: 12px 22px;
+  color: #32d5dc;
+  background: #172940;
+  border: 1px solid #28465e;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.route-nav a:hover {
+  background: #1b4055;
+  border-color: #32d5dc;
+}
+
+.route-nav a:focus-visible {
+  outline: 3px solid #ffe28c;
+  outline-offset: 3px;
+}
