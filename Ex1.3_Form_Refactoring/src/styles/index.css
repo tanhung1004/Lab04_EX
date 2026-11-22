@@ -59,3 +59,103 @@ h1 {
   color: #75e4cc;
   font-weight: 600;
 }
+
+/* ========================================
+   M14 - LEGACY FORM COMPONENTS
+======================================== */
+
+.form-card {
+  margin-top: 30px;
+  padding: 28px;
+  border: 1px solid #28465e;
+  border-radius: 14px;
+  background: #172940;
+}
+
+.form-card h2 {
+  margin: 0 0 12px;
+  font-size: 1.4rem;
+}
+
+.form-description {
+  color: #9eb1cd;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 9px;
+  font-weight: 600;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid #405570;
+  border-radius: 8px;
+  background: #0b1220;
+  color: #e5edf8;
+  font: inherit;
+}
+
+.form-field input:focus {
+  outline: 2px solid #32d5dc;
+  outline-offset: 2px;
+}
+
+.submit-btn {
+  padding: 13px 22px;
+  border: 0;
+  border-radius: 8px;
+  background: #32d5dc;
+  color: #071521;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #68e5e9;
+}
+
+.submit-btn:focus-visible {
+  outline: 3px solid #ffe28c;
+  outline-offset: 3px;
+}
+
+.form-state {
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid #28465e;
+  border-radius: 10px;
+  background: #0b1220;
+}
+
+.form-state h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.form-state pre {
+  margin: 0;
+  color: #75e4cc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.submit-message {
+  margin-top: 18px;
+  color: #75e4cc;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .form-card {
+    padding: 18px;
+  }
+}

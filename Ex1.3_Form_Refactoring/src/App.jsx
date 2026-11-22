@@ -1,4 +1,6 @@
 
+import SimpleForm from "./legacy/SimpleForm";
+
 export default function App() {
   return (
     <main className="app">
@@ -10,14 +12,11 @@ export default function App() {
         <h1>Legacy Validation Anti-Patterns</h1>
 
         <p className="description">
-          Exploring React useEffect dependencies,
-          cascading re-renders, race conditions,
-          and form validation refactoring.
+          Analyzing state synchronization and
+          cascading re-renders in React forms.
         </p>
 
-        <div className="status">
-          Project setup successfully!
-        </div>
+        <SimpleForm />
       </div>
     </main>
   );
