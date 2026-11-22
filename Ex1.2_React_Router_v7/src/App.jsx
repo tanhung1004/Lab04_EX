@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Routes,
@@ -8,23 +7,16 @@ import {
 import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
+import PeopleListPage from "./pages/PeopleListPage";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Parent layout route */}
         <Route path="/" element={<MainLayout />}>
-
-          {/* Default child route */}
           <Route index element={<HomePage />} />
-
-          {/* Nested child route */}
-          <Route
-            path="about"
-            element={<AboutPage />}
-          />
-
+          <Route path="about" element={<AboutPage />} />
+          <Route path="people" element={<PeopleListPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

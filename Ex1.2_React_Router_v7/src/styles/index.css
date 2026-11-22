@@ -132,3 +132,75 @@ p {
   outline-offset: 3px;
 }
 
+/* ==========================================
+   M09 - PEOPLE MASTER LIST
+========================================== */
+
+.people-page {
+  width: 100%;
+}
+
+.people-page h1 {
+  margin-bottom: 12px;
+}
+
+.people-page > p {
+  margin-bottom: 30px;
+}
+
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.people-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid #28465e;
+  border-radius: 14px;
+  background: #172940;
+}
+
+.person-avatar {
+  width: 58px;
+  height: 58px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #32d5dc, #71a8ef);
+  color: #071521;
+  font-weight: 800;
+}
+
+.person-info {
+  min-width: 0;
+}
+
+.person-info h2 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.person-info p {
+  margin: 0 0 6px;
+}
+
+.person-info span {
+  color: #8ca4c4;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 700px) {
+  .people-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .route-nav {
+    flex-wrap: wrap;
+  }
+}
+
