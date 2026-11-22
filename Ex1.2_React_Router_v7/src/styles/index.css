@@ -83,3 +83,52 @@ p {
   outline: 3px solid #ffe28c;
   outline-offset: 3px;
 }
+
+
+/* ========================================
+   M07 - NAVLINK ACTIVE STYLING
+======================================== */
+
+.route-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 105px;
+  padding: 12px 22px;
+
+  color: #32d5dc;
+  background: #172940;
+
+  border: 1px solid #28465e;
+  border-radius: 8px;
+
+  text-decoration: none;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.route-nav .nav-link:hover {
+  background: #1b4055;
+  border-color: #32d5dc;
+}
+
+.route-nav .nav-link.active {
+  background: #32d5dc;
+  color: #071521;
+  border-color: #32d5dc;
+  font-weight: 700;
+}
+
+.route-nav .nav-link.active:hover {
+  background: #68e5e9;
+}
+
+.route-nav .nav-link:focus-visible {
+  outline: 3px solid #ffe28c;
+  outline-offset: 3px;
+}
+
