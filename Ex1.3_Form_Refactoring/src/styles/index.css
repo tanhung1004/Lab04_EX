@@ -282,3 +282,54 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   M18 - FORM VERSION SWITCH
+======================================== */
+
+.form-mode-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+  margin-bottom: 22px;
+}
+
+.form-mode-switch button {
+  padding: 13px 22px;
+  background: #172940;
+  border: 1px solid #405570;
+  border-radius: 8px;
+  color: #9eb1cd;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-mode-switch button:hover {
+  border-color: #32d5dc;
+  color: #32d5dc;
+}
+
+.form-mode-switch button.selected {
+  background: #32d5dc;
+  border-color: #32d5dc;
+  color: #071521;
+  font-weight: 700;
+}
+
+.form-mode-switch button:focus-visible {
+  outline: 3px solid #ffe28c;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .form-mode-switch {
+    flex-direction: column;
+  }
+
+  .form-mode-switch button {
+    width: 100%;
+  }
+}
